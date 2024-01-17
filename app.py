@@ -104,7 +104,6 @@ st.sidebar.markdown("Enter the name of a hotel and select a radius to find nearb
 
 
 
-
 # Define the display_map function
 def display_map(result_df):
     st.header("Nearby Hotels Map:")
@@ -124,23 +123,22 @@ def display_map(result_df):
         # Display the map in the Streamlit app
         folium_static(m)
 
+# Get unique hotel names
 unique_hotel_names = df['hotel_name'].unique()
 
+# Set up the sidebar with the hotel selection dropdown, defaulting to no selection
+selected_hotel_name = st.sidebar.selectbox("Select a Hotel", [''] + list(unique_hotel_names))
 
-default_hotel_name = unique_hotel_names[0] if len(unique_hotel_names) > 0 else None
-
-selected_hotel_name = st.sidebar.selectbox("Select a Hotel", unique_hotel_names, index=0 if default_hotel_name else None)
-
+# Set up the sidebar with a slider for selecting the target radius
 target_radius_km = st.sidebar.slider("Select Target Radius (km):", min_value=1, max_value=10, value=3)
 
+# Initialize an empty DataFrame
 result_df = pd.DataFrame()
 
-if default_hotel_name:
-    result_df = create_groups(df, target_radius_km, default_hotel_name)
-
+# Update the results and display the map when the "Find Hotels" button is pressed
 if st.sidebar.button("Find Hotels"):
-    result_df = create_groups(df, target_radius_km, selected_hotel_name)
-
-# Display the map based on the current state of result_df
-if not result_df.empty:
-    display_map(result_df)
+    if selected_hotel_name:  # Make sure the user has selected a hotel
+        result_df = create_groups(df, target_radius_km, selected_hotel_name)
+        display_map(result_df)
+    else:
+        st.sidebar.error("Please select a hotel from the dropdown.")

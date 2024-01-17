@@ -7,63 +7,9 @@ import requests
 import hashlib
 import time
 
-api_key = st.secrets["api_key"]
-secret = st.secrets["secret"]
 
+df = pd.read_csv('grouped_data_roomex.csv')
 
-def generate_signature(api_key, secret):
-    timestamp = str(int(time.time()))
-    return hashlib.sha256((api_key + secret + timestamp).encode()).hexdigest()
-
-def get_hotels(api_key, secret, from_index, to_index, destination_code):
-    url = "https://api.test.hotelbeds.com/hotel-content-api/1.0/hotels"
-    signature = generate_signature(api_key, secret)
-    
-    headers = {
-        'Api-key': api_key,
-        'X-Signature': signature,
-        'Accept': 'application/json'
-    }
-    
-    params = {
-        'fields': 'all',
-        'language': 'ENG',
-        'from': from_index,
-        'to': to_index,
-        # 'destinationCode': destination_code
-        'countryCode': country_code
-    }
-
-    response = requests.get(url, headers=headers, params=params)
-    if response.status_code == 200:
-        return response.json()
-    else:
-        print(f"Error: {response.status_code}")
-        return None
-
-# Replace with your API key, secret, and Dublin's destination code
-dublin_destination_code = 'DUB'
-country_code = 'IE'
-
-# Example usage
-hotels_data = get_hotels(api_key, secret, 1, 100, country_code) 
-if hotels_data:
-    # Assuming hotels_data is a dictionary containing a list of hotels under the key 'hotels'
-    hotels_list = hotels_data.get('hotels', [])
-
-    # Convert the list of hotels to a DataFrame
-    df = pd.DataFrame(hotels_list)
-    
-
-# Extracting hotel name
-df['hotel_name'] = df['name'].apply(lambda x: x['content'] if pd.notna(x) else None)
-
-# Extracting latitude and longitude
-df['latitude'] = df['coordinates'].apply(lambda x: x['latitude'] if pd.notna(x) else None)
-df['longitude'] = df['coordinates'].apply(lambda x: x['longitude'] if pd.notna(x) else None)
-
-# Now df has the new columns: 'hotel_name', 'latitude', 'longitude'
-df = df[['hotel_name', 'latitude', 'longitude']]
 
 # Function to calculate Haversine distance between two points, found online. 
 def haversine(lat1, lon1, lat2, lon2):

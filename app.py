@@ -99,7 +99,8 @@ def create_groups(df, target_radius_km, selected_hotel_name):
 st.title("Hotel Proximity Discovery Tool")
 
 # User input
-st.sidebar.title("Discover hotels nearby hotels! Not all hotel names are included. This app demonstrates usage of haversine function to calculate distances between two points. Data is taken from https://api.test.hotelbeds.com/hotel-content-api/1.0/hotels.")
+st.sidebar.title("Discover hotels nearby hotels! Not all hotel names are included.")
+st.sidebar.markdown("This app demonstrates usage of haversine function to calculate distances between two points. Data is taken from https://api.test.hotelbeds.com/hotel-content-api/1.0/hotels.")
 st.sidebar.markdown("Enter the name of a hotel and select a radius to find nearby hotels. Simply enter hotel name and press 'find hotels'.")
 
 

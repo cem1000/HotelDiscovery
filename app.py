@@ -7,8 +7,8 @@ import requests
 import hashlib
 import time
 
-api_key = "api_key"
-secret = "secret"
+api_key = api_key
+secret = secret
 
 
 def generate_signature(api_key, secret):

@@ -8,7 +8,7 @@ import hashlib
 import time
 
 
-df = pd.read_csv('Hotels.csv')
+df = pd.read_csv('Hotels.xls')
 
 
 # Function to calculate Haversine distance between two points, found online. 

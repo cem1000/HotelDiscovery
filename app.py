@@ -8,6 +8,7 @@ import hashlib
 import time
 
 
+### removed this section as API times run out. Instead, uploaded a static list as xls format.. keeping code here still
 # api_key = st.secret[api_key]
 # secret =  st.secret[secret]
 
@@ -46,7 +47,7 @@ import time
 # dublin_destination_code = 'DUB'
 # country_code = 'IE'
 
-# # Example usage
+# # 
 # hotels_data = get_hotels(api_key, secret, 1, 100, country_code) 
 # if hotels_data:
 #     # Assuming hotels_data is a dictionary containing a list of hotels under the key 'hotels'
@@ -130,13 +131,12 @@ unique_hotel_names = df['hotel_name'].unique()
 # Set up the sidebar with the hotel selection dropdown, defaulting to no selection
 selected_hotel_name = st.sidebar.selectbox("Select a Hotel", [''] + list(unique_hotel_names))
 
-# Set up the sidebar with a slider for selecting the target radius
 target_radius_km = st.sidebar.slider("Select Target Radius (km):", min_value=1, max_value=10, value=3)
 
 # Initialize an empty DataFrame
 result_df = pd.DataFrame()
 
-# Update the results and display the map when the "Find Hotels" button is pressed
+# Update the results and display the map when the "Find Hotels" button pressed
 if st.sidebar.button("Find Hotels"):
     if selected_hotel_name:  # Make sure the user has selected a hotel
         result_df = create_groups(df, target_radius_km, selected_hotel_name)
